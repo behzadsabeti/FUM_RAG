@@ -1,0 +1,602 @@
+/* 
+University Rules RAG Chatbot - Custom Styles
+Formal Academic Design with University Colors
+*/
+
+/* Font and RTL Configuration */
+* {
+    font-family: 'Vazir', 'Tahoma', sans-serif;
+}
+
+body {
+    direction: rtl;
+    text-align: right;
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+    min-height: 100vh;
+    line-height: 1.6;
+}
+
+/* University Color Scheme */
+:root {
+    --university-primary: #1e3a8a;      /* Deep Blue */
+    --university-secondary: #dc2626;     /* Academic Red */
+    --university-accent: #059669;        /* Success Green */
+    --university-gold: #d97706;          /* Gold */
+    --university-gray: #6b7280;          /* Neutral Gray */
+    --university-light: #f1f5f9;         /* Light Background */
+    --university-dark: #1f2937;          /* Dark Text */
+}
+
+/* Header Styles */
+.university-header {
+    background: linear-gradient(135deg, var(--university-primary) 0%, #1e40af 100%);
+    color: white;
+    box-shadow: 0 4px 12px rgba(30, 58, 138, 0.15);
+}
+
+.university-title {
+    font-size: 1.8rem;
+    font-weight: 600;
+    margin-bottom: 0.25rem;
+}
+
+.university-subtitle {
+    font-size: 1.1rem;
+    font-weight: 400;
+    color: #cbd5e1;
+}
+
+.university-logo {
+    text-align: center;
+}
+
+/* Status Indicator */
+.status-indicator {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.status-dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background-color: var(--university-accent);
+    display: inline-block;
+    animation: pulse 2s infinite;
+    margin-bottom: 4px;
+}
+
+.status-dot.connecting {
+    background-color: var(--university-gold);
+}
+
+.status-dot.error {
+    background-color: var(--university-secondary);
+}
+
+.status-text {
+    color: #e2e8f0;
+    font-size: 0.75rem;
+}
+
+@keyframes pulse {
+    0% { opacity: 1; }
+    50% { opacity: 0.5; }
+    100% { opacity: 1; }
+}
+
+/* Main Content */
+.main-content {
+    padding: 2rem 0;
+    min-height: calc(100vh - 200px);
+}
+
+/* Welcome Card */
+.welcome-card {
+    animation: fadeInUp 0.6s ease-out;
+}
+
+.welcome-card .card {
+    border-radius: 12px;
+    background: white;
+}
+
+.welcome-card .fa-robot {
+    color: var(--university-primary);
+}
+
+.category-tags {
+    margin-top: 1.5rem;
+}
+
+.category-tags .badge {
+    border: 1px solid var(--university-gray);
+    font-weight: 400;
+    padding: 0.5rem 1rem;
+    margin: 0.25rem;
+    border-radius: 20px;
+}
+
+/* Chat Container */
+.chat-container {
+    animation: fadeInUp 0.8s ease-out;
+}
+
+.chat-container .card {
+    border-radius: 12px;
+    min-height: 500px;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Chat Messages */
+.chat-messages {
+    flex-grow: 1;
+    padding: 1.5rem;
+    max-height: 60vh;
+    overflow-y: auto;
+    background: #fafafa;
+}
+
+.chat-messages::-webkit-scrollbar {
+    width: 6px;
+}
+
+.chat-messages::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 3px;
+}
+
+.chat-messages::-webkit-scrollbar-thumb {
+    background: var(--university-gray);
+    border-radius: 3px;
+}
+
+/* Message Styles */
+.message {
+    margin-bottom: 1.5rem;
+    animation: fadeInMessage 0.5s ease-out;
+}
+
+.message-user {
+    display: flex;
+    justify-content: flex-start;
+}
+
+.message-bot {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.message-content {
+    max-width: 80%;
+    padding: 1rem 1.25rem;
+    border-radius: 12px;
+    position: relative;
+}
+
+.message-user .message-content {
+    background: var(--university-primary);
+    color: white;
+    border-bottom-right-radius: 4px;
+}
+
+.message-bot .message-content {
+    background: white;
+    color: var(--university-dark);
+    border: 1px solid #e5e7eb;
+    border-bottom-left-radius: 4px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+.message-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 0.5rem;
+    font-size: 0.875rem;
+}
+
+.message-header .left-side {
+    display: flex;
+    align-items: center;
+}
+
+.copy-btn {
+    background: none;
+    border: none;
+    color: var(--text-muted);
+    cursor: pointer;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 0.875rem;
+    transition: all 0.2s ease;
+    margin-right: auto;
+    opacity: 0.6;
+}
+
+.copy-btn:hover {
+    background-color: rgba(0, 0, 0, 0.1);
+    color: var(--university-blue);
+    opacity: 1;
+    transform: scale(1.1);
+}
+
+.copy-btn:active {
+    transform: scale(0.95);
+}
+
+.message-user .copy-btn:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+    color: white;
+}
+
+.copy-btn i {
+    pointer-events: none;
+}
+
+.message-icon {
+    margin-left: 0.5rem;
+    width: 20px;
+    text-align: center;
+}
+
+.message-text {
+    line-height: 1.6;
+    white-space: pre-wrap;
+}
+
+/* Markdown formatting in message text */
+.message-text p {
+    margin: 0.8rem 0;
+    line-height: 1.8;
+}
+
+.message-text p:first-child {
+    margin-top: 0;
+}
+
+.message-text p:last-child {
+    margin-bottom: 0;
+}
+
+.message-text strong {
+    font-weight: bold;
+    color: var(--university-blue);
+}
+
+.message-text em {
+    font-style: italic;
+    color: var(--text-muted);
+}
+
+.message-text ol,
+.message-text ul {
+    margin: 1rem 0;
+    padding-right: 2rem;
+    list-style-position: inside;
+    direction: rtl;
+}
+
+.message-text ol {
+    list-style-type: decimal;
+}
+
+.message-text ul {
+    list-style-type: disc;
+}
+
+.message-text li {
+    margin: 0.5rem 0;
+    line-height: 1.6;
+    text-align: right;
+}
+
+/* Category Badge */
+.category-badge {
+    display: inline-block;
+    background: var(--university-light);
+    color: var(--university-primary);
+    padding: 0.25rem 0.75rem;
+    border-radius: 15px;
+    font-size: 0.75rem;
+    font-weight: 500;
+    margin-top: 0.5rem;
+    border: 1px solid var(--university-primary);
+}
+
+/* Sources Section */
+.sources-section {
+    margin-top: 1rem;
+    padding-top: 1rem;
+    border-top: 1px solid #e5e7eb;
+}
+
+.sources-title {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--university-gray);
+    margin-bottom: 0.5rem;
+    display: flex;
+    align-items: center;
+}
+
+.source-item {
+    margin-bottom: 0.5rem;
+    font-size: 0.875rem;
+}
+
+.source-link {
+    color: var(--university-primary);
+    text-decoration: none;
+    border-bottom: 1px dotted var(--university-primary);
+    transition: all 0.3s ease;
+}
+
+.source-link:hover {
+    color: var(--university-secondary);
+    border-bottom-color: var(--university-secondary);
+    text-decoration: none;
+}
+
+.source-link i {
+    margin-left: 0.25rem;
+}
+
+/* PDF Link Styles */
+.pdf-link {
+    color: var(--university-secondary);
+    text-decoration: none;
+    border: 1px solid var(--university-secondary);
+    padding: 0.2rem 0.5rem;
+    border-radius: 0.3rem;
+    background-color: rgba(220, 38, 38, 0.1);
+    transition: all 0.3s ease;
+    display: inline-block;
+    margin: 0.1rem;
+}
+
+.pdf-link:hover {
+    background-color: var(--university-secondary);
+    color: white;
+    text-decoration: none;
+    transform: translateY(-1px);
+    box-shadow: 0 2px 4px rgba(220, 38, 38, 0.3);
+}
+
+.pdf-link i {
+    margin-left: 0.25rem;
+    color: inherit;
+}
+
+/* Loading Indicator */
+.loading-container {
+    padding: 1.5rem;
+    text-align: center;
+    background: #fafafa;
+}
+
+.loading-text {
+    color: var(--university-gray);
+    font-weight: 500;
+}
+
+.spinner-border {
+    width: 1.5rem;
+    height: 1.5rem;
+}
+
+/* Input Area */
+.chat-input-area {
+    padding: 1.5rem;
+    background: white;
+    border-top: 1px solid #e5e7eb;
+}
+
+.chat-input {
+    border: 2px solid #e5e7eb;
+    border-radius: 25px;
+    padding: 0.75rem 1.25rem;
+    font-size: 0.95rem;
+    transition: all 0.3s ease;
+}
+
+.chat-input:focus {
+    border-color: var(--university-primary);
+    box-shadow: 0 0 0 0.2rem rgba(30, 58, 138, 0.15);
+}
+
+.chat-send-btn {
+    background: var(--university-primary);
+    border: none;
+    border-radius: 25px;
+    padding: 0.75rem 1.5rem;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.chat-send-btn:hover {
+    background: #1e40af;
+    transform: translateY(-1px);
+}
+
+.chat-send-btn:disabled {
+    background: var(--university-gray);
+    cursor: not-allowed;
+    transform: none;
+}
+
+.input-footer {
+    margin-top: 0.75rem;
+    text-align: center;
+}
+
+.input-footer small {
+    color: var(--university-gray);
+}
+
+/* Footer */
+.university-footer {
+    background: var(--university-dark);
+    color: #e5e7eb;
+    padding: 2rem 0;
+    margin-top: 3rem;
+}
+
+.university-footer strong {
+    color: white;
+}
+
+/* Animations */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeInMessage {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .university-title {
+        font-size: 1.4rem;
+    }
+    
+    .university-subtitle {
+        font-size: 1rem;
+    }
+    
+    .message-content {
+        max-width: 95%;
+    }
+    
+    .chat-input-area {
+        padding: 1rem;
+    }
+    
+    .category-tags .badge {
+        padding: 0.4rem 0.8rem;
+        font-size: 0.8rem;
+    }
+}
+
+@media (max-width: 576px) {
+    .university-header .row > div {
+        text-align: center;
+        margin-bottom: 1rem;
+    }
+    
+    .university-header .col-md-2:last-child {
+        margin-bottom: 0;
+    }
+    
+    .chat-send-btn span {
+        display: none;
+    }
+    
+    .chat-send-btn {
+        padding: 0.75rem 1rem;
+    }
+}
+
+/* Print Styles */
+@media print {
+    .university-header,
+    .chat-input-area,
+    .university-footer {
+        display: none;
+    }
+    
+    .chat-messages {
+        max-height: none;
+        overflow: visible;
+    }
+}
+
+/* Copy notification styles and animations */
+.copy-notification {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    padding: 12px 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    z-index: 9999;
+    font-family: 'Vazir', 'Tahoma', sans-serif;
+    font-size: 14px;
+    direction: rtl;
+    font-weight: 500;
+    backdrop-filter: blur(10px);
+}
+
+.copy-notification.success {
+    background-color: #10b981;
+    color: white;
+}
+
+.copy-notification.error {
+    background-color: #ef4444;
+    color: white;
+}
+
+/* Animations for copy notifications */
+@keyframes slideInFade {
+    0% {
+        opacity: 0;
+        transform: translateX(100px) scale(0.8);
+    }
+    100% {
+        opacity: 1;
+        transform: translateX(0) scale(1);
+    }
+}
+
+@keyframes slideOutFade {
+    0% {
+        opacity: 1;
+        transform: translateX(0) scale(1);
+    }
+    100% {
+        opacity: 0;
+        transform: translateX(100px) scale(0.8);
+    }
+}
+
+/* Copy button hover effects for different message types */
+.message-user .message-header {
+    position: relative;
+}
+
+.message-bot .message-header {
+    position: relative;
+}
+
+/* Responsive copy button */
+@media (max-width: 768px) {
+    .copy-btn {
+        padding: 6px 10px;
+        font-size: 0.8rem;
+    }
+    
+    .copy-notification {
+        right: 10px;
+        top: 10px;
+        font-size: 13px;
+        padding: 10px 16px;
+    }
+}
