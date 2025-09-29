@@ -23,7 +23,7 @@ A Persian-language AI chatbot that answers questions about Ferdowsi University o
 
 1. **Clone the repository**
    ```bash
-   git clone https://github.com/yourusername/University-RAG-Chatbot.git
+   git clone https://github.com/behzadsabeti/FUM_RAG.git
    cd University-RAG-Chatbot
    ```
 
