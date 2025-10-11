@@ -5,3 +5,4 @@ numpy>=1.24.0
 torch>=2.0.0
 fastapi
 uvicorn
+openai>=1.0.0

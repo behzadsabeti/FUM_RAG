@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-Enhanced RAG System with Gemini LLM Integration
-Complete RAG pipeline with retrieval and generation using Gemini-2.0-flash
+Enhanced RAG System with Qwen LLM Integration
+Complete RAG pipeline with retrieval and generation using Qwen2.5-72B-Instruct via OpenRouter
 """
 
 import os
@@ -18,11 +18,11 @@ import re
 try:
     from sentence_transformers import SentenceTransformer
     from qdrant_client import QdrantClient
-    from google import genai
+    from openai import OpenAI
     print("✅ All required packages imported successfully")
 except ImportError as e:
     print(f"❌ Missing required package: {e}")
-    print("Please install: pip install sentence-transformers qdrant-client python-dotenv google-genai")
+    print("Please install: pip install sentence-transformers qdrant-client python-dotenv openai")
     exit(1)
 
 @dataclass
@@ -50,10 +50,10 @@ class UniversityRulesRAGWithLLM:
         load_dotenv(env_path)
         self.qdrant_url = os.getenv("QDRANT_URL")
         self.qdrant_api_key = os.getenv("QDRANT_API_KEY")
-        self.google_api_key = os.getenv("GOOGLE_API_KEY")
-        self.gemini_model = os.getenv("GEMINI_MODEL", "gemini-2.0-flash")
+        self.openrouter_api_key = os.getenv("OPENROUTER_API_KEY")
+        self.qwen_model = os.getenv("QWEN_MODEL", "qwen/qwen-2.5-72b-instruct:free")
         
-        if not all([self.qdrant_url, self.qdrant_api_key, self.google_api_key]):
+        if not all([self.qdrant_url, self.qdrant_api_key, self.openrouter_api_key]):
             raise ValueError("Required environment variables not found")
         
         # Import PDF URLs configuration
@@ -81,7 +81,7 @@ class UniversityRulesRAGWithLLM:
         
         # Initialize embedding model
         print("🤖 Loading sentence-transformers model...")
-        self.model = SentenceTransformer('sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2')
+        self.model = SentenceTransformer('sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2', device="cpu")
         
         # Initialize Qdrant client
         print("🔗 Connecting to Qdrant...")
@@ -90,12 +90,14 @@ class UniversityRulesRAGWithLLM:
             api_key=self.qdrant_api_key,
         )
         
-        # Initialize Gemini client
-        print("🧠 Connecting to Gemini...")
-        import google.generativeai as genai
-        genai.configure(api_key=self.google_api_key)
-        self.gemini_model_name = self.gemini_model
-        
+        # Initialize OpenRouter client (OpenAI-compatible)
+        print("🧠 Connecting to OpenRouter...")
+        self.openai_client = OpenAI(
+            base_url="https://openrouter.ai/api/v1",
+            api_key=self.openrouter_api_key,
+        )
+        self.model_name = self.qwen_model
+        print(f"✅ Connected to OpenRouter with model: {self.model_name}")
         self.collection_name = "university_rules"
         
         # RAG configuration
@@ -301,8 +303,8 @@ class UniversityRulesRAGWithLLM:
         context = "\n\n".join(context_parts)
         return context, list(cross_references)
     
-    def generate_answer_with_gemini(self, query: str, context: str, cross_references: List[str], detected_level: str = 'general') -> tuple[str, str, float]:
-        """Generate answer using Gemini LLM with academic level awareness"""
+    def generate_answer_with_llm(self, query: str, context: str, cross_references: List[str], detected_level: str = 'general') -> tuple[str, str, float]:
+        """Generate answer using Qwen LLM via OpenRouter with academic level awareness"""
         
         generation_start = time.time()
         
@@ -354,12 +356,22 @@ class UniversityRulesRAGWithLLM:
 پاسخ:"""
 
         try:
-            # Generate response using Gemini
-            import google.generativeai as genai
-            model = genai.GenerativeModel(self.gemini_model_name)
-            response = model.generate_content(prompt)
+            # Generate response using OpenRouter (Qwen model)
+            response = self.openai_client.chat.completions.create(
+                extra_headers={
+                    "HTTP-Referer": "https://github.com/FUM_RAG",  # Optional
+                    "X-Title": "FUM RAG System",  # Optional
+                },
+                model=self.model_name,
+                messages=[
+                    {
+                        "role": "user",
+                        "content": prompt
+                    }
+                ]
+            )
             
-            answer_markdown = response.text if hasattr(response, 'text') else str(response)
+            answer_markdown = response.choices[0].message.content
             
             # Create a plain text version for copy-pasting
             answer_plain = answer_markdown.replace('**', '').replace('*', '')
@@ -409,7 +421,7 @@ class UniversityRulesRAGWithLLM:
         context, cross_references = self.prepare_context_for_llm(sources, detected_level)
         
         # Step 3: Generate answer with LLM and academic level awareness
-        answer_markdown, answer_plain, generation_time = self.generate_answer_with_gemini(
+        answer_markdown, answer_plain, generation_time = self.generate_answer_with_llm(
             query,
             context,
             cross_references,
@@ -490,7 +502,7 @@ class UniversityRulesRAGWithLLM:
                 "collection_name": self.collection_name,
                 "total_documents": collection_info.points_count,
                 "embedding_model": "paraphrase-multilingual-MiniLM-L12-v2",
-                "llm_model": self.gemini_model,
+                "llm_model": self.qwen_model,
                 "max_context_length": self.max_context_length,
                 "min_confidence_threshold": self.min_confidence,
                 "status": "active"
@@ -568,7 +580,7 @@ def format_rag_response(response: RAGResponse) -> str:
 def test_rag_system_with_llm():
     """Test the enhanced RAG system with comprehensive queries"""
     
-    print("🧪 Testing Enhanced RAG System with Gemini LLM")
+    print("🧪 Testing Enhanced RAG System with Qwen LLM")
     print("="*80)
     
     # Initialize system
